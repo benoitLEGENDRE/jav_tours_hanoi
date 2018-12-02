@@ -1,7 +1,7 @@
 
 
 public class hanoi3 {
-	    public static void hanoi(MachineTrace m,int n, int col1, int col2, int col3,int [] A,int [] B,int [] C) {
+	    public static void hanoi(MachineTrace m,int n, int col1, int col2, int col3,int [] A,int [] B,int [] C,Rectangle r1,Rectangle r2,Rectangle r3) {
 	        int positionHauteur=0;
 	       // System.out.println("..reçu.......n= "+n+"  "+col1+"   "+col2+"  "+col3);
 	    	if (n == 0) 
@@ -10,13 +10,32 @@ public class hanoi3 {
 	    		return;
 	    	}
 	    	//System.out.println("...appel........n1= "+(n-1)+"  "+col1+"   "+col3+"  "+col2);
-	        hanoi(m,n-1, col1, col3, col2,A,B,C);
+	        hanoi(m,n-1, col1, col3, col2,A,B,C,r1,r2,r3);
 	        System.out.println("Bougez le disque " + n + " de " + col1 + " à " + col3);
-	        echanger(n,col1,col3,A,B,C);
+	        echangerPosition(n,col1,col3,r1,r2,r3);
+	        echanger(n,col1,col3,A,B,C,r1,r2,r3);
+	        afficher(A,B,C);
 	        //System.out.println("...appel........n2= "+(n-1)+"  "+col2+"   "+col1+"  "+col3);
-	        hanoi(m,n-1, col2, col1, col3,A,B,C);
+	        hanoi(m,n-1, col2, col1, col3,A,B,C,r1,r2,r3);
 	        
 	       
+	    }
+	    public static void echangerPosition(int n,int col1,int col3,Rectangle r1,Rectangle r2,Rectangle r3) {
+	    	double position1,position13,position12,position11;
+	    	System.out.println("Bougez le disque " + n + " de " + col1 + " à " + col3);
+	    	if(n==1) {
+	    		position1=r1.getPositiony();
+	    		System.out.println("le disque " + n + " est en position  " + position1);
+	    	}
+	    	if(n==2) {
+	    		position1=r2.getPositiony();
+	    		System.out.println("le disque " + n + " est en position  " + position1);
+	    	}
+	    	if(n==3) {
+	    		position1=r3.getPositiony();
+	    		System.out.println("le disque " + n + " est en position  " + position1);
+	    	}
+	    	
 	    }
 	    
 	    public static void rectangle(MachineTrace m,int n,int col,int positionHauteur) {
@@ -44,63 +63,133 @@ public class hanoi3 {
 	    	}
 	    }
 	    
+	    public static void afficherHanoi(int [] A,int [] B,int [] C,Rectangle r1) {
+	    	//r[1].placer(0,0);
+	    	r1.dessiner();
+	    }
 	    
 			
-	    public static void echanger(int n,int col1,int col3,int [] T1,int [] T2,int [] T3) {
-	    	int i=T2.length-1,j=T1.length-1,k=T3.length-1,mem1=0,mem2=0;
+	    public static void echanger(int n,int col1,int col3,int [] T1,int [] T2,int [] T3,Rectangle r1,Rectangle r2,Rectangle r3) {
+	    	int i=T2.length-1,j=T1.length-1,k=T3.length-1,departmem1=0,departmem2=0,departmem3=0,arrivmem1,arrivmem2,arrivmem3;
 	    	System.out.println("i long"+i);
 	    	System.out.println("T1="+T1[i]);
 	    	if(col1==1) {
 	    		i=T1.length-1;
-	    		mem1=i;
-	    		while((T1[i]==0)&&(i>0)) {
-			    		System.out.print("i1= "+i+"  ");
-			    		i--;
-			    		mem1=i;
+	    		departmem1=T1.length-1;
+	    		arrivmem1=T1.length-1;
+	    		
+	    		while((T1[i]!=n)&&(i>0)) {
+	    				i--;
+			    		departmem1=i;
 			    		
 			    	}
-	    		System.out.println("mem1= "+mem1);
+	    		System.out.println("col1 disque "+n+" en "+departmem1);
+	    		T1[departmem1]=0;
+	    		System.out.println("on met 0 en T1 rang "+departmem1);
+	    		if(col3==2) {
+	    			i=T1.length-1;
+	    			arrivmem1=T1.length-1;
+		    		while((T2[i]!=0)&&(i>0)) {
+		    			i--;
+		    			arrivmem1=i;
+		    		}
+		    		System.out.println("col2 arrivée disque "+n+" en "+arrivmem1);
+		    		T2[arrivmem1]=n;
+	    		}
+	    		if(col3==3) {
+	    			i=T1.length-1;
+	    			arrivmem1=T1.length-1;
+		    		while((T3[i]!=0)&&(i>0)) {
+		    			i--;
+		    			arrivmem1=i;
+		    		}
+		    		System.out.println("col3 arrivée disque "+n+" en "+arrivmem1);
+		    		T3[arrivmem1]=n;
+
+	    		}
+	    		
 	    	}
 	    	else if(col1==2){
 	    		i=T1.length-1;
-	    		mem1=i;
-	    		while((T2[i]==0)&&(i>0)) {
-			    		System.out.print("i2= "+i+"  ");
+	    		departmem2=T1.length-1;
+	    		while((T2[i]!=n)&&(i>0)) {
 			    		i--;
-			    		mem1=i;
+			    		departmem2=i;
 			    		
 			    	}
-	    		System.out.println("mem1= "+mem1);
+	    		System.out.println("disque "+n+" en "+departmem2);
+	    		T2[departmem2]=0;
+	    		System.out.println("on met 0 en T2 rang "+departmem2);
+	    		if(col3==1) {
+	    			i=T1.length-1;
+	    			arrivmem1=T1.length-1;
+		    		while((T1[i]!=0)&&(i>0)) {
+		    			i--;
+		    			arrivmem1=i;
+		    		}
+		    		System.out.println("col2 arrivée disque "+n+" en "+arrivmem1);
+		    		T1[arrivmem1]=n;
+	    		}
+	    		if(col3==3) {
+	    			i=T1.length-1;
+	    			arrivmem1=T1.length-1;
+		    		while((T3[i]!=0)&&(i>0)) {
+		    			i--;
+		    			arrivmem1=i;
+		    		}
+		    		System.out.println("col3 arrivée disque "+n+" en "+arrivmem1);
+		    		T3[arrivmem1]=n;
+	    		}
 	    	}
 	    	else if(col1==3){
 	    		i=T1.length-1;
-	    		mem1=i;
-	    		while((T3[i]==0)&&(i>0)) {
-			    		System.out.print("i3= "+i+"  ");
+	    		departmem3=T1.length-1;
+	    		while((T3[i]!=n)&&(i>0)) {
 			    		i--;
-			    		mem1=i;
+			    		departmem3=i;
 			    		
 			    	}
-	    		System.out.println("mem1= "+mem1);
+	    		System.out.println("disque "+n+" en "+departmem3);
+	    		T3[departmem3]=0;
+	    		System.out.println("on met 0 en T3 rang "+departmem3);
+	    		if(col3==2) {
+	    			i=T1.length-1;
+	    			arrivmem1=T1.length-1;
+		    		while((T2[i]!=0)&&(i>0)) {
+		    			i--;
+		    			arrivmem1=i;
+		    		}
+		    		System.out.println("col2 arrivée disque "+n+" en "+arrivmem1);
+		    		T2[arrivmem1]=n;
+	    		}
+	    		if(col3==1) {
+	    			i=T1.length-1;
+	    			arrivmem1=T1.length-1;
+		    		while((T1[i]!=0)&&(i>0)) {
+		    			i--;
+		    			arrivmem1=i;
+		    		}
+		    		System.out.println("col3 arrivée disque "+n+" en "+arrivmem1);
+		    		T1[arrivmem1]=n;
+	    		}
 	    	}
 	    	
-	    	if(T2[0]!=0) {
-		    	while((T2[j]!=0)) {
-		    		System.out.println("j="+j);
-		    		mem2=j;
-		    		j--;
-		    	}
-	    	}
-	    	/*System.out.println("mem1="+mem1);
-	    	System.out.println("mem2="+mem2);
-	    	int temp=T1[mem1];
-	    	T1[mem1]=T2[mem2];
-	    	T2[mem2]=temp;*/
+	    	
 	    	
 	    }
+	
 
 	    public static void main(String[] args) {
 	    	MachineTrace m = new MachineTrace(400,400);
+	    	Rectangle r [];
+	    	int nombre=5;
+	    	 r = new Rectangle[nombre+1];
+	    	 for(int j=1;j<nombre+1;j++) {
+	    		 r[j]=new Rectangle(m,10+20*j,10 ); 
+	    	 }
+	    	
+	    	/*Rectangle r[2] = new Rectangle(m,40,10);
+	    	Rectangle r[3] = new Rectangle(m,60,10);*/
 	    	m.attenteAutomatique(100);
 	    	m.masquerPointeur();
 		    m.lever();
@@ -117,10 +206,19 @@ public class hanoi3 {
 	    	}
 	    	afficher(A,B,C);
 	    	double x, y;
-	    	rectangle(m,3,1,0);
-	    	rectangle(m,2,1,10);
-	    	rectangle(m,0,1,20);
+	    	r[1].setPosition(-80,20);
+	    	r[2].setPosition(-90,10);
+	    	r[3].setPosition(-100,0);
+	    	r[2].placer();
+	    	afficherHanoi(A,B,C,r[2]);
+	    	r[1].placer();
+	    	afficherHanoi(A,B,C,r[1]);
+	    	r[3].placer();
+	    	afficherHanoi(A,B,C,r[3]);
+	    	//r[1].dessiner();
+	    	m.rafraichir();
 	    	//System.out.println("...appel........n1= "+(n)+"  "+1+"   "+2+"  "+3);
-	        hanoi(m,n, 1, 2, 3,A,B,C);
+	        hanoi(m,n, 1, 2, 3,A,B,C,r[1],r[2],r[3]);
 	    }
+		
 }
