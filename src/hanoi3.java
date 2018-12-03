@@ -11,7 +11,7 @@ public class hanoi3 {
 	    	//System.out.println("...appel........n1= "+(n-1)+"  "+col1+"   "+col3+"  "+col2);
 	        hanoi(m,n-1, col1, col3, col2,A,B,C,r1,r2,r3,timer);
 	        //System.out.println("Bougez le disque " + n + " de " + col1 + " à " + col3);
-	        echangerPosition(n,col1,col3,r1,r2,r3);
+	        
 	        echanger(n,col1,col3,A,B,C,r1,r2,r3);
 	        afficher(A,B,C);
 	        m.effacerTout();
@@ -22,23 +22,7 @@ public class hanoi3 {
 	        
 	       
 	    }
-	    public static void echangerPosition(int n,int col1,int col3,Rectangle r1,Rectangle r2,Rectangle r3) {
-	    	double position1;
-	    	//System.out.println("Bougez le disque " + n + " de " + col1 + " à " + col3);
-	    	if(n==1) {
-	    		position1=r1.getPositiony();
-	    		//System.out.println("le disque " + n + " est en position  " + position1);
-	    	}
-	    	if(n==2) {
-	    		position1=r2.getPositiony();
-	    		//System.out.println("le disque " + n + " est en position  " + position1);
-	    	}
-	    	if(n==3) {
-	    		position1=r3.getPositiony();
-	    		//System.out.println("le disque " + n + " est en position  " + position1);
-	    	}
-	    	
-	    }
+	   
 	    
 	    public static void rectangle(MachineTrace m,int n,int col,int positionHauteur) {
 	    	if(n!=0) {
