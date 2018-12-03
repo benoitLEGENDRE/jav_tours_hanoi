@@ -37,4 +37,9 @@ public class Rectangle {
 		m.lever();
 		m.placer(x, y);
 	}
+	public void setDimension(int Largeur,int  Hauteur)
+	  {
+		this.largeur=Largeur;
+		this.hauteur=Hauteur;
+	  }
 }
